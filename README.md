@@ -1,6 +1,44 @@
-# Ops Memory Agent
+# 🧠 Ops Memory Agent
 
-Production-oriented monorepo for a memory-backed operations assistant.
+**Ops Memory Agent** is an advanced, memory-backed AI operations assistant designed specifically for DevOps and Site Reliability Engineering (SRE) teams. 
+
+Unlike traditional chat assistants that "forget" previous incidents as soon as you close the browser, this agent is deeply integrated with the **Hindsight Memory Database**. It continuously retains critical context, decisions, and root causes from production outages, making it an invaluable teammate during high-stress operational events.
+
+---
+
+## 🛠️ Technology Stack
+This application is designed as a highly scalable monorepo comprising three core pillars:
+
+1. **Frontend (Next.js 14 & Turbopack):** A lightning-fast React application built with Tailwind CSS and `shadcn/ui`. It provides an immersive "Ops Room" UI, including active incident routing, real-time memory bank status, and similarity clusters.
+2. **Backend Engine (FastAPI & Python 3.11):** An asynchronous API wrapper that bridges the gap between the user interface, the memory database, and the LLM inference engine. 
+3. **Agent Loop (LangChain & Groq):** Powered by the incredibly fast `qwen/qwen3-32b` model running on Groq hardware. This LangChain ReAct agent orchestrates tool calls to query the Hindsight DB before it even answers your prompt!
+
+---
+
+## 🚀 Key Features
+
+* **Persistent Shared Memory:** Every "Aha!" moment, root-cause discovery, or architectural decision made in the chat is securely saved to the backing Hindsight vector database.
+* **Context Injection:** When an engineer queries the agent about a new outage (e.g., "The user-db is timing out"), the backend autonomously scrapes the `incident-response` memory bank for conceptually similar historical events and seamlessly injects them into the prompt.
+* **Automated Data Pipeline:** Eliminates manual data entry. Production telemetry, chat logs, and incident post-mortems can be dumped via API and ingested instantly.
+* **Aggressive Caching:** We heavily utilize Python `@lru_cache` and automated socket optimizations to ensure sub-second response times during catastrophic network events.
+
+---
+
+## 💡 Primary Use Cases
+
+### 1. On-Call Triaging System
+When a P1 alert triggers at 3:00 AM, engineers are often groggy and overwhelmed. By pasting the raw alert into the Ops Memory Agent, it instantly contextualizes the error against the company's historical footprint. It moves the team past the "What is happening?" phase directly to the "How do we fix this?" phase.
+
+### 2. Elimination of Siloed Knowledge 
+Senior engineers often act as walking encyclopedias for fragile, legacy systems. Ops Memory Agent democratizes this knowledge. If a senior engineer resolves a weird database pool exhaustion error, their fix is permanently captured. Next month, a junior engineer encountering the same error will be instantly handed the exact resolution steps.
+
+### 3. Automated Post-Mortem Generation
+Because the agent "remembers" the entire lifecycle of an incident discussion—from initial confusion to eventual database migration—teams can recall full conversation histories to draft rigorous SOC-2 compliant post-mortems with zero manual tracing.
+
+### 4. Interactive Standard Operating Procedures (SOPs)
+Static Wiki pages decay instantly. Instead of maintaining dusty Runbooks, teams "talk" to the memory agent. It acts as a highly dynamic, living handbook that actively reasons over the company's past scaling issues and third-party failures.
+
+##Production-oriented monorepo for a memory-backed operations assistant.
 
 - `frontend`: Next.js 14 App Router, Tailwind CSS, shadcn/ui-style components
 - `backend`: FastAPI on Python 3.11 with async endpoints
