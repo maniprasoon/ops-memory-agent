@@ -1,0 +1,62 @@
+# Hackathon Presentation: Ops Memory Agent
+
+## 1. Introduction (The Hook)
+**Speaker:** "Hello everyone! Today we're presenting the **Ops Memory Agent**, an AI-powered assistant designed specifically for DevOps and SRE teams. Have you ever been in the middle of a stressful incident at 3 AM, and the team forgets what steps were taken last time this happened? Or which database was failing? Chatbots are great, but they have a fatal flaw: **they forget.** Our agent fixes that."
+
+## 2. What It Does
+**Speaker:** "This is a production-ready Web App built with Next.js, FastAPI, LangChain, and powered by Groq's super-fast Qwen model. But the secret sauce is the **Hindsight API**. It gives our agent long-term memory. It remembers decisions, context, and incident details across different sessions and team members."
+
+## 3. The Demo (Step-by-Step)
+**Step 1: The Setup**
+*Action: Open the website (http://localhost:3000).*
+**Speaker:** "Here is our Ops Room. Let's imagine we are doing a routine server patch."
+
+**Step 2: Storing a Memory**
+*Action: Type in the chat: "We decided to migrate the primary database to AWS RDS on Saturday at 2 AM."*
+**Speaker:** "We tell the agent this critical piece of information. The backend automatically saves this into the Hindsight Memory Bank under our current session ID."
+
+**Step 3: Recalling the Context**
+*Action: Open a NEW session/tab (or pretend it's the next day) and ask: "What did we decide about the database migration?"*
+**Speaker:** "Now, let's say it's tomorrow, or a different engineer logs in. They ask the agent about the migration. Automatically, our backend searches the long-term memory, retrieves that fact, injects it into the prompt behind the scenes, and answers accurately!"
+
+## 4. Why This Matters (The Pitch)
+**Speaker:** "By building a persistent 'shared memory' for operations teams, we eliminate repeated mistakes, drastically speed up incident response times, and reduce the cognitive load on engineers. It's not just another LLM wrapper; it's a context-aware teammate that never forgets."
+
+## 5. Q&A and Conclusion
+**Speaker:** "Thanks for watching! We're happy to take any questions on our architecture, the Hindsight API integration, or how we handle context injection."
+
+---
+
+## 🛠️ Appendix: How to Run the Project (For Judges/Teammates)
+
+We've automated the setup and memory seeding into a simple process. Open two console terminals and follow these steps on Windows:
+
+**Terminal 1 (Backend):**
+```bash
+# Create and activate your virtual environment
+py -m venv .venv
+.\.venv\Scripts\activate
+
+# Install the Python dependencies (FastAPI, Langchain, Hindsight, etc)
+pip install -r requirements.txt
+
+# Start the Backend Server on IPv4 localhost
+cd backend
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+**Terminal 2 (Frontend & Auto-Seeding):**
+```bash
+# Enter the frontend folder and activate the same virtual ecosystem
+cd frontend
+..\.venv\Scripts\activate
+
+# Install Node modules
+npm install
+
+# Run the Dev command
+# This automatically triggers `scripts/seed_memory.py` to inject our 50+ incidents 
+# into the Hindsight database before spinning up Next.js!
+npm run dev
+```
+Open up your browser to `http://localhost:3000` to interact with the Ops AI!

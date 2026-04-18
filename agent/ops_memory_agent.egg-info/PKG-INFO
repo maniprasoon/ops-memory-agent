@@ -1,0 +1,12 @@
+Metadata-Version: 2.4
+Name: ops-memory-agent
+Version: 0.1.0
+Summary: LangChain agent loop for Ops Memory Agent
+Requires-Python: <3.13,>=3.11
+Requires-Dist: hindsight-client>=0.4.0
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: langchain<1.0.0,>=0.3.0
+Requires-Dist: langchain-core<1.0.0,>=0.3.0
+Requires-Dist: langchain-groq<1.0.0,>=0.2.0
+Requires-Dist: pydantic>=2.8.0
+Requires-Dist: pydantic-settings>=2.4.0

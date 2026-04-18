@@ -1,0 +1,140 @@
+# Ops Memory Agent
+
+Production-oriented monorepo for a memory-backed operations assistant.
+
+- `frontend`: Next.js 14 App Router, Tailwind CSS, shadcn/ui-style components
+- `backend`: FastAPI on Python 3.11 with async endpoints
+- `agent`: LangChain agent loop and memory tool definitions
+- Memory: Hindsight via `HINDSIGHT_API_KEY`
+- Chat model: Groq OpenAI-compatible API using `qwen/qwen3-32b`
+
+## Prerequisites
+
+- Docker and Docker Compose
+- Hindsight Cloud API key, or a self-hosted Hindsight API URL
+- Groq API key
+
+## Setup
+
+1. Copy environment variables:
+
+```bash
+cp .env.example .env
+```
+
+The Python services also read `.env.example` as a fallback for local demos, but
+`.env` should be used for real secrets and overrides.
+
+2. Fill in:
+
+```bash
+HINDSIGHT_API_KEY=...
+GROQ_API_KEY=...
+```
+
+`HINDSIGHT_BASE_URL` defaults to `https://api.hindsight.vectorize.io`. For a local Hindsight server, set it to `http://localhost:8888` outside Docker or to a reachable container hostname inside Docker.
+
+3. Start the stack:
+
+```bash
+docker compose up --build
+```
+
+4. Open the app:
+
+```text
+http://localhost:3000
+```
+
+The backend is available at `http://localhost:8000`.
+
+## API
+
+### `POST /api/chat`
+
+Request:
+
+```json
+{
+  "session_id": "ops-room-1",
+  "message": "What did we decide about the database migration?"
+}
+```
+
+Response:
+
+```json
+{
+  "session_id": "ops-room-1",
+  "response": "..."
+}
+```
+
+The endpoint recalls relevant Hindsight memories for the session, injects them into the system prompt, calls Groq, saves the exchange back to Hindsight, and returns the assistant response.
+
+### `POST /api/memory`
+
+Stores a memory for a session.
+
+### `POST /api/memory/recall`
+
+Recalls memories for `{ "session_id": "...", "query": "...", "top_k": 5 }`.
+
+## Local Development & Execution
+
+**1. Virtual Environment Setup (Root Directory)**
+Create and activate a single virtual environment at the root of the repository, then install all project dependencies from `requirements.txt`:
+
+```bash
+cd ops-memory-agent
+py -m venv .venv
+.\.venv\Scripts\activate   # (On Windows)
+# source .venv/bin/activate # (On Mac/Linux)
+pip install -r requirements.txt
+```
+
+**2. Start the Backend API (Terminal 1)**
+With the virtual environment activated:
+```bash
+cd backend
+python -m uvicorn app.main:app --reload --port 8000
+```
+
+**3. Start the Frontend & Auto-Seed Memory (Terminal 2)**
+Open a new terminal, activate the same `.venv`, and start the Next.js app. Our package scripts will automatically seed exactly 50 incidents into your Hindsight memory under the hood!
+
+```bash
+cd frontend
+..\.venv\Scripts\activate  # (On Windows)
+npm install
+npm run dev
+```
+
+The app will be available at `http://localhost:3000`.
+
+Incident Response AI (CLI Agent):
+
+```bash
+cd agent
+python agent.py
+```
+
+The incident agent uses `INCIDENT_MEMORY_BANK=incident-response` by default. Its tools log every Hindsight recall and retain operation so demos show when memory is being used.
+
+## Demo Testing Scenarios
+You can use these exact prompts in the `/chat` route to demonstrate the agent's incident recall capabilities successfully.
+
+**Scenario 1: Database Pool Exhaustion**
+> "We are getting P1 alerts right now. The `orders-service` and `api-gateway` are timing out across us-east-1. The Postgres logs are saying `remaining connection slots are reserved for non-replication superuser`. Have we seen this before and what was the fix?"
+
+**Scenario 2: Redis Eviction Error**
+> "Users are complaining about duplicate payment charges. We checked the logs and found `IdempotencyKeyMissingError: key checkout:idem:pay_7781 not found`. Redis memory is sitting at 97%. What happened last time this occurred?"
+
+**Scenario 3: Complex Outage**
+> "The `inventory-service` is returning completely frozen, stale stock numbers. I am seeing `SQLSTATE[HY000] [2006] MySQL server has gone away` in the logs. How do we mitigate this rapidly?"
+
+## Notes
+
+- Each `session_id` maps to a Hindsight memory bank.
+- Memory calls are wrapped in `backend/app/services/memory.py` so application code does not depend directly on SDK response shapes.
+- The LangChain agent in `/agent` uses backend HTTP tools by default, keeping Hindsight and Groq credentials centralized in `/backend`.

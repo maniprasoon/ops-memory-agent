@@ -1,0 +1,16 @@
+pyproject.toml
+app/__init__.py
+app/main.py
+app/api/__init__.py
+app/api/chat.py
+app/api/memory.py
+app/core/__init__.py
+app/core/config.py
+app/services/__init__.py
+app/services/groq.py
+app/services/memory.py
+ops_memory_agent_backend.egg-info/PKG-INFO
+ops_memory_agent_backend.egg-info/SOURCES.txt
+ops_memory_agent_backend.egg-info/dependency_links.txt
+ops_memory_agent_backend.egg-info/requires.txt
+ops_memory_agent_backend.egg-info/top_level.txt
