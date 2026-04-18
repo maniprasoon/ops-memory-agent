@@ -136,6 +136,8 @@ With the virtual environment activated:
 ```bash
 cd backend
 python -m uvicorn app.main:app --reload --port 8000
+also run:
+python seed_memory.py (for memory activation)
 ```
 
 **3. Start the Frontend & Auto-Seed Memory (Terminal 2)**
