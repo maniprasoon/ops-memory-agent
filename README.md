@@ -178,3 +178,11 @@ You can use these exact prompts in the `/chat` route to demonstrate the agent's 
 - Each `session_id` maps to a Hindsight memory bank.
 - Memory calls are wrapped in `backend/app/services/memory.py` so application code does not depend directly on SDK response shapes.
 - The LangChain agent in `/agent` uses backend HTTP tools by default, keeping Hindsight and Groq credentials centralized in `/backend`.
+
+
+## Screenshots
+
+![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_233921_vark0h.png)
+![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_233938_xlj2mv.png)
+![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_233950_nejqmc.png)
+![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_234124_bw4cjo.png)
