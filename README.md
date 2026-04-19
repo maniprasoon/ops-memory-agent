@@ -186,3 +186,4 @@ You can use these exact prompts in the `/chat` route to demonstrate the agent's 
 ![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_233938_xlj2mv.png)
 ![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_233950_nejqmc.png)
 ![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776536089/Screenshot_2026-04-18_234124_bw4cjo.png)
+![App Screenshot](https://res.cloudinary.com/ds8fnrk7s/image/upload/v1776574594/WhatsApp_Image_2026-04-19_at_8.19.52_AM_pk3cub.jpg)
